@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/app/secure")
-public class TestController {
+public class SecureController {
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")

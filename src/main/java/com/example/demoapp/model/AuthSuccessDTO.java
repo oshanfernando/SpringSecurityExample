@@ -2,7 +2,7 @@ package com.example.demoapp.model;
 
 import java.util.List;
 
-public class SignupResponseDTO {
+public class AuthSuccessDTO {
     private String token;
     private String type = "Bearer";
     private String refreshToken;
@@ -11,7 +11,10 @@ public class SignupResponseDTO {
     private String email;
     private List<String> roles;
 
-    public SignupResponseDTO(String accessToken, String refreshToken, Long id, String username, String email, List roles) {
+    public AuthSuccessDTO() {
+    }
+
+    public AuthSuccessDTO(String accessToken, String refreshToken, Long id, String username, String email, List<String> roles) {
         this.token = accessToken;
         this.refreshToken = refreshToken;
         this.id = id;
