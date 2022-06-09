@@ -21,6 +21,8 @@ public class SignupDTO {
     @Size(min = 6, max = 40)
     private String password;
 
+    private String provider;
+
     public String getUsername() {
         return username;
     }
@@ -51,5 +53,13 @@ public class SignupDTO {
 
     public void setRole(Set<String> role) {
         this.role = role;
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
     }
 }
