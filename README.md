@@ -36,13 +36,13 @@ spring.security.oauth2.client.registration.google.client-secret=
 REST API endpoints
 -------------
 
-| Endpoint               | Description                                         | Secured |
-|------------------------|:----------------------------------------------------|--------:|
-| app/register           | Create new user                                     |  public |
-| app/login              | Login using username/password                       |  public |
-| app/refreshtoken       | Get new JWT token from refresh token                |  public |
-| /app/secure/user       | Secured endpoint for Both USER/ADMIN roles          | secured |
-| /app/secure/admin      | Secured endpoint for Both ADMIN role                | secured |
+| Endpoint                 | Description                                     | Secured   |
+|:-------------------------|:------------------------------------------------|:----------|
+| app/register             | Create new user                                 | public    |
+| app/login                | Login using username/password                   | public    |
+| app/refreshtoken         | Get new JWT token from refresh token            | public    |
+| /app/secure/user         | Secured endpoint for Both USER/ADMIN roles      | secured   |
+| /app/secure/admin        | Secured endpoint for ADMIN role                 | secured   |
 
 
 
