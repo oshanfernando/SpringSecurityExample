@@ -11,6 +11,8 @@ import com.example.demoapp.model.SignupDTO;
 import com.example.demoapp.repository.RoleRepository;
 import com.example.demoapp.repository.UserRepository;
 import com.example.demoapp.security.JwtUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
@@ -38,7 +41,7 @@ public class UserService {
     private final RefreshTokenService refreshTokenService;
 
     @Autowired
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder encoder, @Lazy AuthenticationManager authenticationManager, JwtUtils jwtUtils, RefreshTokenService refreshTokenService) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, @Lazy PasswordEncoder encoder, @Lazy AuthenticationManager authenticationManager, JwtUtils jwtUtils, RefreshTokenService refreshTokenService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.encoder = encoder;
@@ -49,10 +52,12 @@ public class UserService {
 
     public void saveUser(SignupDTO signUpDTO) {
         if (userRepository.existsByUsername(signUpDTO.getUsername())) {
+            LOG.error("User already exists by username : {}", signUpDTO.getUsername());
             throw new UserServiceException("User already exists");
         }
 
         if (userRepository.existsByEmail(signUpDTO.getEmail())) {
+            LOG.error("Email is already in use");
             throw new UserServiceException("Email is already in use");
         }
 
@@ -90,12 +95,14 @@ public class UserService {
         if (userOptional.isPresent()) {
             User dbUser = userOptional.get();
             if (!dbUser.getProvider().equals(signUpDTO.getProvider())) {
+                LOG.error("User previously signed up with a different sign in method");
                 throw new UserServiceException("You have previously signed up with a different sign in method");
             }
             return dbUser;
         } else {
             if (userRepository.existsByUsername(signUpDTO.getUsername())) {
-                throw new UserServiceException("User already exists");
+                LOG.error("Username already taken");
+                throw new UserServiceException("Username already taken");
             }
 
             User user = new User(signUpDTO.getUsername(), signUpDTO.getEmail(),
